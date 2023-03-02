@@ -13,7 +13,7 @@ export function App() {
   const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState('idle');
-  const [setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [showBtn, setShowBtn] = useState(false);
 
   
@@ -29,12 +29,12 @@ export function App() {
         };
 
         if (totalHits > 0) {
-          const totalPages = Math.ceil(totalHits / 12);
+          const roundedtotalPages = Math.ceil(totalHits / 12);
 
           setImages(prevState => [...prevState, ...hits])
           setStatus('resolved')
-          setTotalPages(totalPages)
-          setShowBtn(page < totalPages)
+          setTotalPages(roundedtotalPages)
+          setShowBtn(page < roundedtotalPages)
         }
       })
       .catch(error => {
@@ -42,6 +42,14 @@ export function App() {
       });
   };
   }, [page, query]);
+
+  useEffect(() => {
+    if (page >= totalPages && totalPages !== 0) {
+      toast.info("You've reached the end of the search", {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+    }
+  }, [page, totalPages]);
   
   const handleFormSubmit = query => {
     setQuery(query)
