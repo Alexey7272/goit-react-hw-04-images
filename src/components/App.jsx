@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import Searchbar from "./SearchBar/searchbar";
 import ImageGallery from "./ImageGallery/ImageGallery";
 import { TailSpin } from "react-loader-spinner";
