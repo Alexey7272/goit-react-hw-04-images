@@ -13,7 +13,7 @@ export function App() {
   const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState('idle');
-  const [totalPages, setTotalPages] = useState(0);
+  const [setTotalPages] = useState(0);
   const [showBtn, setShowBtn] = useState(false);
 
   
