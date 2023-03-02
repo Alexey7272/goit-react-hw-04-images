@@ -7,50 +7,41 @@ import Button from "./ImageGallery/LoadMore";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-
 export function App() {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState('idle');
-  const [totalPages, setTotalPages] = useState(0);
   const [showBtn, setShowBtn] = useState(false);
-
   
- useEffect((prevProps, prevState) => {
-  if (prevState !== page || prevState !== query) {
-    API.getPics(page, query)
-      .then(({ data }) => {
-        const { hits, totalHits } = data;
-
-        if (totalHits === 0) {
-          toast.error(`Sorry, there are no pictures with search ${query}`);
-          setStatus('rejected')
-        };
-
-        if (totalHits > 0) {
-          const roundedtotalPages = Math.ceil(totalHits / 12);
-
-          setImages(prevState => [...prevState, ...hits])
-          setStatus('resolved')
-          setTotalPages(roundedtotalPages)
-          setShowBtn(page < roundedtotalPages)
-        }
-      })
-      .catch(error => {
-        console.log(error.name, error.message);
-      });
+  
+  useEffect(() => {
+  if (!query) {
+    return;
   };
+
+  API.getPics(page, query)
+    .then(({ data }) => {
+      const { hits, totalHits } = data;
+      
+      if (totalHits === 0) {
+        toast.error(`Sorry, there are no pictures with search ${query}`);
+        setStatus('rejected')
+      };
+
+      if (totalHits > 0) {
+        const totalPages = Math.ceil(totalHits / 12);
+
+        setImages(prevState => [...prevState, ...hits])
+        setStatus('resolved')
+        setShowBtn(page < totalPages)
+      }
+    })
+    .catch(error => {
+      console.log(error.name, error.message);
+    });
   }, [page, query]);
 
-  useEffect(() => {
-    if (page >= totalPages && totalPages !== 0) {
-      toast.info("You've reached the end of the search", {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
-    }
-  }, [page, totalPages]);
-  
   const handleFormSubmit = query => {
     setQuery(query)
     setPage(1)
@@ -59,7 +50,7 @@ export function App() {
   };
 
   const onLoadMore = (prevState) => {
-    setPage(prevState + 1)
+    setPage(prevState => prevState + 1)
   };
 
   if ( status === 'idle' || status === 'rejected' ) {
@@ -72,7 +63,7 @@ export function App() {
         <ToastContainer autoClose={3000}/>
       </div>
     )
-  }
+  };
 
   if (status === 'pending') {
     return (
@@ -83,7 +74,7 @@ export function App() {
         <ToastContainer autoClose={3000}/>
       </div> 
     )
-  }
+  };
 
   if (status === 'resolved') {
     return (
@@ -94,8 +85,8 @@ export function App() {
         {showBtn && <Button loadMore={onLoadMore}/>}
       </div>
     )
-  }
-}
+  };
+};
 
 
 export default App;
