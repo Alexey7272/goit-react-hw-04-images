@@ -35,7 +35,7 @@ export function App() {
         setImages(prevState => [...prevState, ...hits])
         setStatus('resolved')
         setShowBtn(page < totalPages)
-      }
+      };
     })
     .catch(error => {
       console.log(error.name, error.message);
@@ -87,7 +87,6 @@ export function App() {
     )
   };
 };
-
 
 export default App;
 
