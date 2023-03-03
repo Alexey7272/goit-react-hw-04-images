@@ -11,7 +11,7 @@ export default function ImageGalleryItem({item}) {
     };
 
     return(
-        <li className='ImageGalleryItem' >
+        <li className='ImageGalleryItem'>
             <img src={item.webformatURL} alt={item.tag} className='ImageGalleryItem-image' onClick={toggleModal}/>
             { showModal && 
                 <Modal onClose={toggleModal}> 

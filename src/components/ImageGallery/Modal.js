@@ -9,12 +9,13 @@ export default function Modal({children, onClose}) {
                 onClose();
             };
         };
+
         window.addEventListener('keydown', handleKeyDown);
 
         return() => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    },[onClose]);
+    }, [onClose]);
 
     const handleBackDropClick = e => {
         if ( e.currentTarget === e.target) {

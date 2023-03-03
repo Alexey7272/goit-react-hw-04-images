@@ -1,11 +1,10 @@
 import '../Styles/styles.css'
 import ImageGalleryItem from "./ImageGalleryItem";
 
-
 export default function ImageGallery({images}) {
   return(
     <ul className='ImageGallery'>
-      {images.map(item => <ImageGalleryItem item={item}/>)}
+      {images.map(item => <ImageGalleryItem item={item} key={item.id}/>)}
     </ul>
   );
 };
